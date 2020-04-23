@@ -10,8 +10,8 @@ Videos are generally streamed in a way such that the initial connection to reque
 
 ### Security options
 
-####Https referer
+#### Https referer
 When querying a resource (e.g. a video), the HTTP request header can include a field "referrer" (who sent you to me). It is often discarded, or used for analytics but it also an easy way of preventing the download of the video from another session, unauthorized access, etc. even though you can see it in the web player. 
 
-####Metamask
+#### Metamask
 If the users wallet is verfied by metamask that can be used to generate the session, and metamask can perform the check(?)
