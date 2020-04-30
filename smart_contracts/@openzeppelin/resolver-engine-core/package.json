@@ -1,0 +1,64 @@
+{
+  "_from": "@openzeppelin/resolver-engine-core@^0.3.3",
+  "_id": "@openzeppelin/resolver-engine-core@0.3.3",
+  "_inBundle": false,
+  "_integrity": "sha512-PVUlxy8VlkslLaedl8IXz+dvjZz5inQoo5a12P0YZAmiCEo0Ct98ME4JN3LvxZx9YLLrjiShE/Jpaw+hjfO78A==",
+  "_location": "/@openzeppelin/resolver-engine-core",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@openzeppelin/resolver-engine-core@^0.3.3",
+    "name": "@openzeppelin/resolver-engine-core",
+    "escapedName": "@openzeppelin%2fresolver-engine-core",
+    "scope": "@openzeppelin",
+    "rawSpec": "^0.3.3",
+    "saveSpec": null,
+    "fetchSpec": "^0.3.3"
+  },
+  "_requiredBy": [
+    "/@openzeppelin/cli",
+    "/@openzeppelin/resolver-engine-fs",
+    "/@openzeppelin/resolver-engine-imports"
+  ],
+  "_resolved": "https://registry.npmjs.org/@openzeppelin/resolver-engine-core/-/resolver-engine-core-0.3.3.tgz",
+  "_shasum": "d03f08fbe86ea6a002276c7ab2b6a643b99dd5a7",
+  "_spec": "@openzeppelin/resolver-engine-core@^0.3.3",
+  "_where": "/Users/pkj/recycle_demo/node_modules/@openzeppelin/cli",
+  "author": {
+    "name": "Crypto Punkers",
+    "email": "hello@punkers.co"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenZeppelin/resolver-engine/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@types/is-url": "^1.2.28",
+    "debug": "^3.1.0",
+    "is-url": "^1.2.4",
+    "request": "^2.85.0"
+  },
+  "deprecated": false,
+  "gitHead": "19ae165775cce3a69d57ea3360d3322b74470c08",
+  "homepage": "https://github.com/OpenZeppelin/resolver-engine#readme",
+  "license": "LGPL-3.0-or-later",
+  "main": "build/index.js",
+  "name": "@openzeppelin/resolver-engine-core",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/OpenZeppelin/resolver-engine.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf build/",
+    "lint": "tslint -c ../../tslint.json -p ./",
+    "test": "jest",
+    "tsc": "tsc"
+  },
+  "types": "build/index.d.ts",
+  "version": "0.3.3"
+}
