@@ -14,7 +14,7 @@ class EventStreamerAttendee extends Component {
   render() {
       return (
           <div className="videoPlayer">
-              <ReactPlayer url={"rtmp://35.202.191.227/live/test"} playing={true} controls={true}/>
+              <ReactPlayer url={"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"} playing={true} controls={true}/>
           </div>
       )
   }

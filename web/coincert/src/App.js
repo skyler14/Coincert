@@ -5,9 +5,9 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import EventStreamerAttendee from './components/EventStreamerAttendee'
-import NavBar from './components/NavBar'
-import LandingPage from './components/LandingPage'
+import EventStreamerAttendee from './Components/EventStreamerAttendee'
+import NavBar from './Components/NavBar'
+import Landing from './Components/Landing'
 
 
 
@@ -19,7 +19,7 @@ class App extends Component {
         <Router>
         <NavBar/>
         <Switch>
-          <Route path="/" exact component={LandingPage}/>
+          <Route path="/" exact component={Landing}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
         </Switch>
         </Router>
