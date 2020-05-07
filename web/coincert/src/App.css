@@ -6,6 +6,11 @@
   height: 40vmin;
   pointer-events: none;
 }
+
+h1, h2, h3 {
+  color: black;
+}
+
 .navbar {
   height: 75px;
   width: auto;

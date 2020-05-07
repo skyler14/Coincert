@@ -12,7 +12,8 @@
     "react-player": "^2.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "video.js": "^7.7.5"
+    "video.js": "^7.7.5",
+    "web3": "^1.2.7"
   },
   "scripts": {
     "start": "react-scripts start",
