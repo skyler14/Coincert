@@ -33,7 +33,7 @@ class Application():
         self.contract = None
         self.owner_id = None
         self.proxy_contract_with_bytecode = None
-    
+
     def create_account(self, password):
         w3 = Web3(Web3.HTTPProvider("http://localhost:8545"))
         address = w3.geth.personal.newAccount(password)
@@ -74,7 +74,7 @@ class Application():
             # });
 
         # signed_txn = w3.eth.account.signTransaction(dict(
-        #     gasPrice = w3.eth.gasPrice, 
+        #     gasPrice = w3.eth.gasPrice,
         #     gas = 100000,
         #     to=address,
         #     value=web3.toWei(10,'ether')
@@ -101,7 +101,7 @@ class Application():
             # print("Tx receipt logs = {0}".format(tx_receipt.logs))
             # print("piyush return value " + x)
             # print("Got email and phone {0}, {1}".format(email, phone))
-            
+
             user_map[user_address] = {
                 "email": email,
                 "phone": phone
@@ -549,6 +549,9 @@ def compile_contract(contract_source_files, contractFileName, contractName=None,
     # print("Compiled bytecode {0}".format(compiled_sol['contracts'][contractFileName][contractName])) # [contractFileName][contractName]['evm']['bytecode']['object']
     bytecode = compiled_sol['contracts'][contractFileName][contractName]['evm']['bytecode']['object']
     abi = json.loads(compiled_sol['contracts'][contractFileName][contractName]['metadata'])['output']['abi']
+    print()
+    print(abi)
+    print()
     return bytecode, abi
 
 
