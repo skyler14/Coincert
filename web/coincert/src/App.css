@@ -11,6 +11,11 @@ h1, h2, h3 {
   color: black;
 }
 
+form, label {
+  color: black;
+  display: block;
+}
+
 .navbar {
   height: 75px;
   width: auto;

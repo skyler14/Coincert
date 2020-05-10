@@ -88,7 +88,7 @@ contract EventProxy is ERC721MetadataMintable, AdminUpgradeabilityProxy, EventSt
 }
 
 contract EventV1 is ERC721MetadataMintable, EventStorage {
-    
+
     constructor () ERC721Metadata("PlasticCoin", "PLC") ERC721() public {
         // We should ideally not require the below line. The storage of the proxy contract should always be used. But removing the below line breaks things. Fix that.
         // eventStruct.minterGranter = _msgSender();
@@ -112,7 +112,7 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
     function containsUser(address key) internal view returns (bool) {
         return eventStruct.userDetails.data[key].keyIndex > 0;
     }
-    
+
     // modifier onlyMinterGranter() {
     //     require(_msgSender() == eventStruct.minterGranter, "Caller does not have the rights to grant Minter role");
     //     _;
@@ -224,5 +224,5 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
     function getUserDetails(address key) public view returns (string memory, string memory) {
         return (eventStruct.userDetails.data[key].value.email, eventStruct.userDetails.data[key].value.phone);
     }
- 
+
 }

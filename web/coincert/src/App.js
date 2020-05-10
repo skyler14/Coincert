@@ -8,9 +8,9 @@ import {
 import EventStreamerAttendee from './Components/EventStreamerAttendee'
 import NavBar from './Components/NavBar'
 import Landing from './Components/Landing'
+import EventCreate from './Components/EventCreate'
 import Web3 from 'web3'
 import MetamaskNotEnabled from './Components/MetamaskNotEnabled'
-
 
 
 class App extends Component {
@@ -28,13 +28,13 @@ class App extends Component {
   async loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
     const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })
+    this.setState({ account: accounts[0], web3: web3 })
   }
 
   constructor(props){
     // Is there is an injected web3 instance?
     super(props)
-    this.state = {metamaskEnabled: false}
+    this.state = {metamaskEnabled: false, web3: null}
   }
 
 
@@ -52,8 +52,9 @@ class App extends Component {
         <Router>
         <NavBar/>
         <Switch>
-          <Route path="/" exact component={Landing }/>
+          <Route path="/" exact component={Landing}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
+          <Route path="/EventCreate" component={EventCreate}/>
         </Switch>
         </Router>
 
