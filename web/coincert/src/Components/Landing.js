@@ -39,6 +39,9 @@ class LandingPage extends Component {
       <Link to="/EventCreate">
       <button>  Event Create Test</button>
       </Link>
+      <Link to="/EventAbout">
+      <button>  Event About Test</button>
+      </Link>
     </div>
   );
 }
