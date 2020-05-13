@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
-import '../App.css';
+import Form from 'react-bootstrap/Form'
 import Web3 from 'web3'
 import {EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS} from "../Middleware/SmartContractABI.js"
 
@@ -8,7 +7,7 @@ class EventCreate extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = {event_name: '', event_capacity: 0, event_price: 0, account: null, web3: null, contract: null};
+      this.state = {event_name: '', event_capacity: 0, event_price: 0, account: null, web3: null, contract: null, createdEventID: ""};
 
       this.handleNameChange = this.handleNameChange.bind(this);
       this.handlePriceChange = this.handlePriceChange.bind(this);
@@ -55,22 +54,23 @@ class EventCreate extends React.Component {
       let capacity = this.state.event_capacity;
       token_uri["event_creator"] = this.state.account;
       console.log("createEvent")
+      let tokenID = this.getTokenID(token_uri);
+      this.setState({createdEventID: "Created Event TokenID: " + tokenID});
       try {
-        this.state.contract.methods.mintWithTokenURI(capacity, this.getTokenID(token_uri), JSON.stringify(token_uri)).send(this.state.account)
+        this.state.contract.methods.mintWithTokenURI(capacity, tokenID, JSON.stringify(token_uri)).send({'from': this.state.account})
         .on('transactionHash', function(hash){
-          console.log(hash);
+          console.log("TransactionHash " + hash);
         })
           .on('receipt', function(receipt){
-            console.log(receipt);
-
+            console.log("Receipt " + JSON.stringify(receipt));
           })
           .on('confirmation', function(confirmationNumber, receipt){
-            console.log(confirmationNumber);
+            console.log("Confirmation Number " + confirmationNumber);
 
           })
           .on('error', console.error);
         } catch (error) {
-        console.log(error)
+        console.log("Error" + error)
       }
       event.preventDefault();
     }
@@ -82,21 +82,22 @@ class EventCreate extends React.Component {
   render() {
      return(
        <div>
-       <form onSubmit={this.contractCreateEvent}>
-        <label>
+       <Form onSubmit={this.contractCreateEvent}>
+        <Form.Label>
           Event Name:
-          <input type="text" value={this.state.event_name} onChange={this.handleNameChange}/>
-        </label>
-        <label>
+          <Form.Control type="text" value={this.state.event_name} onChange={this.handleNameChange}/>
+        </Form.Label>
+        <Form.Label>
           Capacity:
-          <input type="text" value={this.state.event_capacity} onChange={this.handleCapacityChange}/>
-        </label>
-        <label>
+          <Form.Control type="text" value={this.state.event_capacity} onChange={this.handleCapacityChange}/>
+        </Form.Label>
+        <Form.Label>
           Price (in ETH):
-          <input type="text" value={this.state.event_price} onChange={this.handlePriceChange}/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+          <Form.Control type="text" value={this.state.event_price} onChange={this.handlePriceChange}/>
+        </Form.Label>
+        <Form.Control type="submit" value="Submit" />
+      </Form>
+      <h1>{this.state.createdEventID}</h1>
       </div>
 
   );
