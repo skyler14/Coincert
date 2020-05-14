@@ -24,8 +24,8 @@ class EventCreate extends React.Component {
       const contract = await new web3.eth.Contract(EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS, {from: account, gas: 1500000, gasPrice: '20000000000'})
       //const events = await web3.eth.get
       this.setState({ account: account , web3: web3, contract: contract})
-
     }
+
     componentDidMount() {
       this.loadBlockchainData()
     }
