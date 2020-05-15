@@ -34,11 +34,18 @@ class EventAbout extends React.Component {
     contractFindEvent(event) {
       this.enableMetamask();
       try {
-        this.state.contract.methods.tokenURI(this.state.eventTokenID).call({'from': this.state.account})
-        .then(function(result){
-            console.log(result);
-            this.setState({eventDetails: result})
-        }.bind(this))
+        this.state.contract.methods.TokenURI(this.state.eventTokenID).send({'from': this.state.account})
+        .on('transactionHash', function(hash){
+          console.log("TransactionHash " + hash);
+        })
+          .on('receipt', function(receipt){
+            console.log("Receipt " + JSON.stringify(receipt));
+          })
+          .on('confirmation', function(confirmationNumber, receipt){
+            console.log("Confirmation Number " + confirmationNumber);
+
+          })
+          .on('error', console.error);
         } catch (error) {
         console.log("Error" + error)
       }

@@ -11,6 +11,8 @@ import Landing from './Components/Landing'
 import EventCreate from './Components/EventCreate'
 import Web3 from 'web3'
 import MetamaskNotEnabled from './Components/MetamaskNotEnabled'
+import EventAbout from './Components/EventAbout'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends Component {
@@ -55,6 +57,7 @@ class App extends Component {
           <Route path="/" exact component={Landing}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
           <Route path="/EventCreate" component={EventCreate}/>
+          <Route path="/EventAbout" component={EventAbout}/>
         </Switch>
         </Router>
 
