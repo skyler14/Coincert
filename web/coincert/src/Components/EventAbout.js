@@ -62,11 +62,11 @@ class EventAbout extends React.Component {
        <Form onSubmit={this.contractFindEvent}>
         <Form.Label>
           Token ID
-          <Form.Control type="text" value={this.state.event_name} onChange={this.handleNameChange}/>
+          <Form.Control type="text" value={this.state.event_name} onChange={this.handleTokenIDChange}/>
         </Form.Label>
         <Form.Control type="submit" value="Submit" />
       </Form>
-      <h1>{this.state.eventDetails}</h1>
+      <h2>{this.state.eventDetails}</h2>
       </div>
 
   );
@@ -74,4 +74,3 @@ class EventAbout extends React.Component {
 }
 
 export default EventAbout;
-// Display info about event, allow ticket purchase
