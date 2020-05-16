@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
-import { Player } from 'video-react';
-import '../App.css';
 
 class EventStreamerHost extends Component {
   render() {
     return (
-      <div>
-        <h1> TO DO <h2/>
-      </div>
+        <h1>this is a placeholder</h1>
     )
-
   }
-
+}
 export default EventStreamerHost;

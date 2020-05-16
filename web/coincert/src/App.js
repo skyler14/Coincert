@@ -59,6 +59,7 @@ class App extends Component {
           <Route path="/" exact component={Landing}/>
           <Route path="/MyEvents" component={MyEvents}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
+          <Route path="/EventStreamerHost" component={EventStreamerAttendee}/>
           <Route path="/EventCreate" component={EventCreate}/>
           <Route path="/EventAbout" component={EventAbout}/>
           <Route path="/CoincertAbout" component={CoincertAbout}/>
