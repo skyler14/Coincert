@@ -66,24 +66,22 @@ class MyEvents extends Component {
 
 
   render() {
-  return (
-    <div className="MyEvents">
-      <h2>Account ID: {this.state.account} </h2>
-      <h2> Purchased Events </h2>
-      <ListGroup>
-      {this.state.events.map((value, index) => {
-          return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>
-     })}
-     </ListGroup>
-     <h2> Created Events </h2>
-     <ListGroup>
-     {this.state.created_events.map((value, index) => {
-         return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>
-    })}
-    </ListGroup>
-
-
-    </div>
+      return (
+        <div className="MyEvents">
+          <h2>Account ID: {this.state.account} </h2>
+          <h2> Purchased Events </h2>
+          <ListGroup>
+          {this.state.events.map((value, index) => {
+              return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>
+         })}
+         </ListGroup>
+         <h2> Created Events </h2>
+         <ListGroup>
+         {this.state.created_events.map((value, index) => {
+             return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>
+        })}
+        </ListGroup>
+        </div>
   );
 }
 }
