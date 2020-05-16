@@ -197,16 +197,17 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         return ret;
     }
 
-    function getCreatedTokens(uint256 tokenId) public view returns (address[] memory) {
-        address[] memory ret = new address[](eventStruct.tokenIdOwnersCnt[tokenId]);
+    function isAccountTokenOwner(uint256 tokenId) public view returns (bool) {
         address current = eventStruct.tokenIdOwnersList[tokenId][address(0)];
         uint i = 0;
         while (current != address(0)) {
-            ret[i] = current;
+            if (current == _msgSender()) {
+                return true;
+            }
             current = eventStruct.tokenIdOwnersList[tokenId][current];
             i++;
         }
-        return ret;
+        return false;
     }
 
     function getTokenIds() public view returns (uint256[] memory) {
