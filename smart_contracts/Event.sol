@@ -26,6 +26,7 @@ contract EventStorage {
         // Mapping from token ID to owner with their shares
         mapping (uint256 => mapping(address => uint)) tokenOwnersShares;
         mapping (uint256 => uint256) tokenIds;
+        uint tokenIdCnt;
         mapping (uint256 => mapping(address => address)) tokenIdOwnersList;
         mapping (uint256 => uint) tokenIdOwnersCnt;
 
@@ -130,13 +131,13 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         require(!_exists(tokenId), "Token already exists");
         _mint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenURI);
-
         eventStruct.tokenOwnersShares[tokenId][msg.sender] = capacity;
         eventStruct.ownerTokensShares[msg.sender][tokenId] = capacity;
         eventStruct.tokenShareCnt[tokenId] = capacity;
 
-        // tokenIds[tokenId] = tokenIds[0];
-        // tokenIds[0] = tokenId;
+
+        eventStruct.tokenIds[eventStruct.tokenIdCnt] = tokenId;
+        eventStruct.tokenIdCnt += 1;
 
         eventStruct.tokenIdOwnersList[tokenId][msg.sender] = eventStruct.tokenIdOwnersList[tokenId][address(0)];
         eventStruct.tokenIdOwnersList[tokenId][address(0)] = msg.sender;
@@ -191,6 +192,30 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         while (current != address(0)) {
             ret[i] = current;
             current = eventStruct.tokenIdOwnersList[tokenId][current];
+            i++;
+        }
+        return ret;
+    }
+
+    function getCreatedTokens(uint256 tokenId) public view returns (address[] memory) {
+        address[] memory ret = new address[](eventStruct.tokenIdOwnersCnt[tokenId]);
+        address current = eventStruct.tokenIdOwnersList[tokenId][address(0)];
+        uint i = 0;
+        while (current != address(0)) {
+            ret[i] = current;
+            current = eventStruct.tokenIdOwnersList[tokenId][current];
+            i++;
+        }
+        return ret;
+    }
+
+    function getTokenIds() public view returns (uint256[] memory) {
+        uint256[] memory ret = new uint256[](eventStruct.tokenIdCnt);
+        uint256 current = eventStruct.tokenIds[0];
+        uint i = 0;
+        while (i != eventStruct.tokenIdCnt) {
+            ret[i] = current;
+            current = eventStruct.tokenIds[i];
             i++;
         }
         return ret;

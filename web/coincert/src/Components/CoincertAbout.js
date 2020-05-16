@@ -10,11 +10,12 @@ class CoincertAbout extends Component {
 
   //}
   render() {
-      return (
-          <div>
-            EventAbout {this.props}
-          </div>
+      return (<div>
+          <Container className="text-dark">
+            <h1>BLURB</h1>
+         </Container>
+         </div>
       )
   }
 }
-export default EventStreamerAttendee;
+export default CoincertAbout;

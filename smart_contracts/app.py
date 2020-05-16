@@ -141,6 +141,10 @@ class CreateApplication(Resource):
         print("Tx receipt = {0}".format(tx_receipt))
         print("Tx receipt logs = {0}".format(tx_receipt.logs))
 
+        print()
+        print(abi_impl)
+        print()
+
         # tx_hash = app.contract.functions.upgradeTo(new_impl_contract_address).transact()
         # tx_receipt = app.w3.eth.waitForTransactionReceipt(tx_hash)
         # print("Tx receipt = {0}".format(tx_receipt))
@@ -549,9 +553,6 @@ def compile_contract(contract_source_files, contractFileName, contractName=None,
     # print("Compiled bytecode {0}".format(compiled_sol['contracts'][contractFileName][contractName])) # [contractFileName][contractName]['evm']['bytecode']['object']
     bytecode = compiled_sol['contracts'][contractFileName][contractName]['evm']['bytecode']['object']
     abi = json.loads(compiled_sol['contracts'][contractFileName][contractName]['metadata'])['output']['abi']
-    print()
-    print(abi)
-    print()
     return bytecode, abi
 
 
