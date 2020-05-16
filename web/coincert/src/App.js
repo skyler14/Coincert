@@ -9,6 +9,8 @@ import EventStreamerAttendee from './Components/EventStreamerAttendee'
 import NavBar from './Components/NavBar'
 import Landing from './Components/Landing'
 import EventCreate from './Components/EventCreate'
+import MyEvents from './Components/MyEvents'
+import CoincertAbout from './Components/CoincertAbout'
 import Web3 from 'web3'
 import MetamaskNotEnabled from './Components/MetamaskNotEnabled'
 import EventAbout from './Components/EventAbout'
@@ -55,9 +57,11 @@ class App extends Component {
         <NavBar/>
         <Switch>
           <Route path="/" exact component={Landing}/>
+          <Route path="/MyEvents" component={MyEvents}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
           <Route path="/EventCreate" component={EventCreate}/>
           <Route path="/EventAbout" component={EventAbout}/>
+          <Route path="/CoincertAbout" component={CoincertAbout}/>
         </Switch>
         </Router>
 

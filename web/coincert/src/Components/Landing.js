@@ -36,7 +36,7 @@ class LandingPage extends Component {
             contract.methods.tokenURI(tokenIDs[i]).call({'from': this.state.account}).then(function(result){
                  result = JSON.parse(result);
                  //maybe add a check for past events -> Or do something w this on the EventListItem component
-                 result['tokenID'] = tokenIDs[i];
+                 result['eventTokenID'] = tokenIDs[i];
                  this.addEventToList(result);
         }.bind(this));
         }
@@ -56,7 +56,7 @@ class LandingPage extends Component {
   render() {
   return (
     <div className="LandingPage">
-      <h2> Welcome Account ID: {this.state.account} </h2>
+      <h2> All Events </h2>
       <ListGroup>
       {this.state.events.map((value, index) => {
           return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>

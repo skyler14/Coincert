@@ -4,6 +4,12 @@ import {EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS} from "../Middleware/SmartCon
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
+import {
+  Link,
+} from "react-router-dom";
+
+
 
 // Check user wallet to see if event ticket has been purhchaseds
 // If have ticket & event time < 30 minutes away, then show link to event stream viewing.
@@ -14,8 +20,7 @@ class EventAbout extends React.Component {
     constructor(props) {
       super(props);
       console.log(props)
-      this.state = {account: null, web3: null, contract: null, eventTokenID: props.location.state.eventTokenID, eventDetails: "", idIsValid: true};
-      console.log(this.state);
+      this.state = {account: null, web3: null, contract: null, eventTokenID: props.location.state.eventTokenID, eventDetails: "", idIsValid: true, eventIsPurchased: false};
       this.contractFindEvent = this.contractFindEvent.bind(this);
 
     }
@@ -35,24 +40,53 @@ class EventAbout extends React.Component {
       this.loadBlockchainData();
     }
 
-    contractFindEvent() {
+    async contractFindEvent() {
       this.enableMetamask();
       try {
 
-      this.state.contract.methods.tokenURI(this.state.eventTokenID).call({'from': this.state.account}).then(function(result){
+      await this.state.contract.methods.tokenURI(this.state.eventTokenID).call({'from': this.state.account}).then(function(result){
             console.log(result);
             this.setState({eventDetails: JSON.parse(result)});
         }.bind(this));
+
+        await this.state.contract.methods.isAccountTokenOwner(this.state.eventTokenID).call({'from': this.state.account}).then(function(result){
+              console.log(result);
+              this.setState({eventIsPurchased: result});
+          }.bind(this));
     }
     catch(error) {
         console.log(error);
         this.setState({idIsValid: false})
-    }
+        }
     }
     // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
 
     enableMetamask = ()  => {
       window.ethereum.enable();
+    }
+
+
+    purchaseEventToken() {
+        console.log("Purchase Event token");
+        //refresh component here
+    }
+
+    renderDynamicEvent() {
+        if (this.state.eventDetails.event_creator === this.state.account) {
+            return (
+                <Link to={ {pathname:'/EventStreamerHost', state: { eventTokenID: this.state.eventTokenID, eventDetails: this.state.eventDetails}} } >Start Event Stream</Link>
+            )
+        }
+        else if (this.state.eventIsPurchased) {
+            return (
+                <Link to={ {pathname:'/EventStreamerAttendee', state: { eventTokenID: this.state.eventTokenID, eventDetails: this.state.eventDetails}} }>Join Event Stream</Link>
+            )
+        }
+        else {
+            return (
+                <Button variant="success" onClick={this.purchaseEventToken}>Purchase Event Token</Button>
+            )
+    }
     }
 
   render() {
@@ -73,6 +107,10 @@ class EventAbout extends React.Component {
                    <Col>Start Time: {this.state.eventDetails.start_time}</Col>
                    <Col>End Time: {this.state.eventDetails.end_time}</Col>
                  </Row>
+                 <Row>
+                   <Col>Token ID: {this.state.eventTokenID}</Col>
+                 </Row>
+                 <Row><Col>{this.renderDynamicEvent()}</Col></Row>
             </Container>
         );
     }
