@@ -16,7 +16,7 @@ class EventListItem extends React.Component {
   render() {
      return(<Container className="text-dark">
           <Row>
-          <Link to to={ {pathname:'/EventAbout', state: {eventTokenID: this.state.eventDetails.tokenID}}}>
+          <Link to={ {pathname:'/EventAbout', state: {eventTokenID: this.state.eventDetails.tokenID}, }}>
             <Col>{this.state.eventDetails.event_name}</Col>
             </Link>
             <Col>Ticket Price: {this.state.eventDetails.price}</Col>

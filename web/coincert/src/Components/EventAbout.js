@@ -55,12 +55,6 @@ class EventAbout extends React.Component {
       window.ethereum.enable();
     }
 
-    // "event_name": this.state.event_name,
-    // "price": this.state.event_price,
-    // "date": this.state.date,
-    // "start_time": this.state.start_time,
-    // "end_time": this.state.end_time,
-
   render() {
       if (!this.state.idIsValid) {
           return (
@@ -69,7 +63,7 @@ class EventAbout extends React.Component {
       }
       else{
          return(
-             <Container className="text-dark " fluid>
+             <Container className="text-dark" fluid>
                  <Row>
                    <Col>{this.state.eventDetails.event_name}</Col>
                    <Col>Ticket Price: {this.state.eventDetails.price}</Col>
