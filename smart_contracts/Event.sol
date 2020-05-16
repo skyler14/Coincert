@@ -37,6 +37,8 @@ contract EventStorage {
         mapping (address => mapping(uint256 => uint256)) ownerTokensList;
         mapping (address => uint) ownerTokensCnt;
 
+        mapping (uint256 => uint256) tokenToPriceMap;
+
         // TODO: Support any value of share cnt in the functions.
         mapping (uint256 => uint) tokenShareCnt;
     }
@@ -127,7 +129,7 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
     //     _removeMinter(account);
     // }
 
-    function mintWithTokenURI(uint256 capacity, uint256 tokenId, string memory tokenURI) public returns (bool) {
+    function mintWithTokenURI(uint256 capacity, uint256 tokenId, string memory tokenURI, uint256 price) public returns (bool) {
         require(!_exists(tokenId), "Token already exists");
         _mint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenURI);
@@ -150,7 +152,35 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         eventStruct.ownerTokensList[msg.sender][0] = tokenId;
         eventStruct.ownerTokensCnt[msg.sender] += 1;
 
+        eventStruct.tokenToPriceMap[tokenId] = price;
+
         return true;
+    }
+
+    function purchaseToken(uint256 tokenId, uint256 share) public {
+        if (eventStruct.ownerTokensShares[ownerOf(tokenId)][tokenId] >= share) {
+            eventStruct.tokenOwnersShares[tokenId][ownerOf(tokenId)] -= share;
+            eventStruct.ownerTokensShares[ownerOf(tokenId)][tokenId] -= share;
+
+            if (eventStruct.tokenOwnersShares[tokenId][ownerOf(tokenId)] == 0) {
+                // TODO: Remove from mappings if share reaches 0
+            }
+
+            if (eventStruct.tokenOwnersShares[tokenId][_msgSender()] == 0) {
+                eventStruct.tokenIdOwnersList[tokenId][_msgSender()] = eventStruct.tokenIdOwnersList[tokenId][address(0)];
+                eventStruct.tokenIdOwnersList[tokenId][address(0)] = _msgSender();
+                eventStruct.tokenIdOwnersCnt[tokenId] += 1;
+
+                eventStruct.ownerTokensList[_msgSender()][tokenId] = eventStruct.ownerTokensList[_msgSender()][0];
+                eventStruct.ownerTokensList[_msgSender()][0] = tokenId;
+                eventStruct.ownerTokensCnt[_msgSender()] += 1;
+            }
+
+            eventStruct.tokenOwnersShares[tokenId][_msgSender()] += share;
+            eventStruct.ownerTokensShares[_msgSender()][tokenId] += share;
+
+            // address(uint160(ownerOf(tokenId))).transfer(share * eventStruct.tokenToPriceMap[tokenId]);
+        }
     }
 
     function transferShareFrom(address to, uint256 tokenId, uint share) public {
@@ -169,6 +199,7 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
             // delete llIndex[_addr];
             // delete balances[_addr];
         }
+
         if (eventStruct.tokenOwnersShares[tokenId][to] == 0) {
             eventStruct.tokenIdOwnersList[tokenId][to] = eventStruct.tokenIdOwnersList[tokenId][address(0)];
             eventStruct.tokenIdOwnersList[tokenId][address(0)] = to;

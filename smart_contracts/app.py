@@ -345,6 +345,7 @@ class CreateEvent(Resource):
         event_creator = request.json.get('event_creator')
         capacity = request.json.get('capacity')
         token_uri = request.json.get('token_uri')
+        price = int(token_uri.get('price', 5))
 
         if admin_name not in application_instance:
             raise BadRequest("No instance exists for {0}".format(admin_name))
@@ -365,7 +366,7 @@ class CreateEvent(Resource):
             print("Implementation contract not deployed yet!")
             raise BadRequest("Implementation contract not deployed yet!")
 
-        tx_hash = app.proxy_contract_with_bytecode.functions.mintWithTokenURI(capacity, get_token_id(token_uri), token_uri).transact()
+        tx_hash = app.proxy_contract_with_bytecode.functions.mintWithTokenURI(capacity, get_token_id(token_uri), token_uri, price).transact()
         tx_receipt = app.w3.eth.waitForTransactionReceipt(tx_hash)
         print("Tx receipt = {0}".format(tx_receipt))
 
@@ -517,6 +518,41 @@ class SendEventTicket(Resource):
 
         return resp
 
+buy_tokens = api.model('buy_tokens', {
+    'admin_name': fields.String(required=True, description='Admin name', default="Piyush"),
+    'from_address': fields.String(required=True, default="0x1F0a4a146776ECC2a3e52F6700901b51aE528bBC", description='Buyer address'),
+    'share': fields.Integer(required=True, default=5, description='Specify share out of 1000 units')
+})
+
+@event.route('/<string:coin_id>/buy')
+class BuyEventTicket(Resource):
+    @api.expect(buy_tokens)
+    def post(self, coin_id):
+        print("------------- Share Coin -------------")
+        token_id = int(coin_id, 16)
+        global application_instance
+        admin_name = request.json.get('admin_name')
+        from_address = request.json.get('from_address')
+        share = request.json.get('share')
+
+        if admin_name not in application_instance:
+            raise BadRequest("No instance exists for {0}".format(admin_name))
+
+        app = application_instance[admin_name]
+        app.w3.eth.defaultAccount = from_address
+
+        print("Buying {0} tickets for {1} for token id {2}".format(share, from_address, token_id))
+        if not app.proxy_contract_with_bytecode:
+            print("Implementation contract not deployed yet!")
+            raise BadRequest("Implementation contract not deployed yet!")
+
+        tx_hash = app.proxy_contract_with_bytecode.functions.purchaseToken(token_id, int(share)).transact()
+
+        resp = Response(
+            json.dumps({"tx_hash": tx_hash.hex()}),
+            status=200, mimetype='application/json')
+
+        return resp
 
 def compile_contract(contract_source_files, contractFileName, contractName=None, **kwargs):
     """
