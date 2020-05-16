@@ -5,11 +5,12 @@ import EventListItem from './EventListItem'
 import ListGroup from 'react-bootstrap/ListGroup'
 import {EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS} from "../Middleware/SmartContractABI.js"
 
-
+// My event / All events w a prop?
 class LandingPage extends Component {
 
   constructor(props) {
     super(props)
+    this.addEventToList= this.addEventToList.bind(this)
     this.state = {account: "", events: [], web3: null, contract: null}
   }
 
@@ -26,15 +27,17 @@ class LandingPage extends Component {
     try {
         //this.state.contract.methods.?.call({'from': this.state.account}).then(function(result){
         //      console.log(result);
+        /// Need to add chaincode call that grabs all events
         let events = [];
         for (let i = 0; i < tokenIDs.length; i++) {
             contract.methods.tokenURI(tokenIDs[i]).call({'from': this.state.account}).then(function(result){
-                  events.push(JSON.parse(result));
-                  this.setState({eventDetails: result});
-        });
-        console.log(events);
+                 result = JSON.parse(result);
+                 //maybe add a check for past events -> Or do something w this on the EventListItem component
+                 result['tokenID'] = tokenIDs[i];
+                 this.addEventToList(result);
+        }.bind(this));
         }
-        this.setState({events: events})
+        this.setState({events: events});
     }
     catch(error) {
       console.log(error);
@@ -42,11 +45,15 @@ class LandingPage extends Component {
     this.setState({ account: account , web3: web3, contract: contract});
   }
 
+  addEventToList(result) {
+    this.setState({events: this.state.events.concat(result)});
+  }
+
 
   render() {
   return (
     <div className="LandingPage">
-      <h4> Welcome Account ID: {this.state.account} </h4>
+      <h2> Welcome Account ID: {this.state.account} </h2>
       <ListGroup>
       {this.state.events.map((value, index) => {
           return <ListGroup.Item key={index}><EventListItem eventDetails={value}/></ListGroup.Item>

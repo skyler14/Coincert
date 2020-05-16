@@ -1,6 +1,13 @@
 import React from 'react';
 import Web3 from 'web3'
 import {EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS} from "../Middleware/SmartContractABI.js"
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+// Check user wallet to see if event ticket has been purhchaseds
+// If have ticket & event time < 30 minutes away, then show link to event stream viewing.
+//
 
 class EventAbout extends React.Component {
 
@@ -62,13 +69,17 @@ class EventAbout extends React.Component {
       }
       else{
          return(
-           <div>
-          <h2>{this.state.eventDetails.event_name}</h2>
-          <h1>{this.state.eventDetails.price}</h1>
-          <h1>{this.state.eventDetails.date}</h1>
-          <h1>{this.state.eventDetails.start_time}</h1>
-          <h1>{this.state.eventDetails.end_time}</h1>
-          </div>
+             <Container className="text-dark " fluid>
+                 <Row>
+                   <Col>{this.state.eventDetails.event_name}</Col>
+                   <Col>Ticket Price: {this.state.eventDetails.price}</Col>
+                 </Row>
+                 <Row>
+                   <Col>Date: {this.state.eventDetails.date}</Col>
+                   <Col>Start Time: {this.state.eventDetails.start_time}</Col>
+                   <Col>End Time: {this.state.eventDetails.end_time}</Col>
+                 </Row>
+            </Container>
         );
     }
   }
