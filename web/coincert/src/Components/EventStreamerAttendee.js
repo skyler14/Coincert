@@ -6,10 +6,13 @@ import Row from 'react-bootstrap/Row'
 //import myVideo from '../test_video.mp4'
 
 
+//Dont start until URL is valid?
+
 class EventStreamerAttendee extends Component {
   constructor(props) {
       super(props);
-      console.log(props);  }
+      console.log(props);
+    }
 
   render() {
       return (

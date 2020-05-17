@@ -9,19 +9,15 @@ import {
   Link,
 } from "react-router-dom";
 
-
-
-// Check user wallet to see if event ticket has been purhchaseds
-// If have ticket & event time < 30 minutes away, then show link to event stream viewing.
-//
-
 class EventAbout extends React.Component {
 
     constructor(props) {
       super(props);
       console.log(props)
-      this.state = {account: null, web3: null, contract: null, eventTokenID: props.location.state.eventTokenID, eventDetails: "", idIsValid: true, eventIsPurchased: false};
+      this.state = {account: null, web3: null, contract: null, eventTokenID: props.location.state.eventTokenID, eventDetails: "", idIsValid: true, eventIsPurchased: false, isOwner: false};
       this.contractFindEvent = this.contractFindEvent.bind(this);
+      this.purchaseEventToken = this.purchaseEventToken.bind(this);
+
 
     }
 
@@ -53,6 +49,13 @@ class EventAbout extends React.Component {
               console.log(result);
               this.setState({eventIsPurchased: result});
           }.bind(this));
+
+          await this.state.contract.methods.ownerOf(this.state.eventTokenID).call({'from': this.state.account}).then(function(result){
+                console.log("Owner " + result);
+                if (this.state.account === result) {
+                    this.setState({isOwner: true});
+                }
+            }.bind(this));
     }
     catch(error) {
         console.log(error);
@@ -66,13 +69,22 @@ class EventAbout extends React.Component {
     }
 
 
-    purchaseEventToken() {
-        console.log("Purchase Event token");
+    async purchaseEventToken() {
+        try {
+            await this.state.contract.methods.purchaseToken(this.state.eventTokenID, 1).send({'from': this.state.account}).then(function(result){
+                console.log(result);
+                this.setState({eventIsPurchased: true});
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }
         //refresh component here
     }
 
     renderDynamicEvent() {
-        if (this.state.eventDetails.event_creator === this.state.account) {
+
+        if (this.state.isOwner) {
             return (
                 <Link to={ {pathname:'/EventStreamerHost', state: { eventTokenID: this.state.eventTokenID, eventDetails: this.state.eventDetails}} } >Start Event Stream</Link>
             )
