@@ -17,8 +17,6 @@ class EventAbout extends React.Component {
       this.state = {account: null, web3: null, contract: null, eventTokenID: props.location.state.eventTokenID, eventDetails: "", idIsValid: true, eventIsPurchased: false, isOwner: false};
       this.contractFindEvent = this.contractFindEvent.bind(this);
       this.purchaseEventToken = this.purchaseEventToken.bind(this);
-
-
     }
 
     async loadBlockchainData() {
@@ -74,7 +72,7 @@ class EventAbout extends React.Component {
             await this.state.contract.methods.purchaseToken(this.state.eventTokenID, 1).send({'from': this.state.account}).then(function(result){
                 console.log(result);
                 this.setState({eventIsPurchased: true});
-            })
+            }.bind(this));
         }
         catch(error) {
             console.log(error);

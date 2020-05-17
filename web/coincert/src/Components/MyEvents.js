@@ -29,7 +29,7 @@ class MyEvents extends Component {
         await contract.methods.getOwnerTokens(account).call({'from': this.state.account}).then(function(result){
             console.log(result);
             tokenIDs = result;
-        }.bind(this));
+        });
         console.log(tokenIDs)
         let events = [];
         for (let i = 0; i < tokenIDs.length; i++) {

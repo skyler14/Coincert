@@ -241,15 +241,19 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         }
         return false;
     }
-
+    // getTokenIds
+    // Inputs:
+    // None
+    // Notes:
+    // This function returns a list of all the tokens minted in this contract
     function getTokenIds() public view returns (uint256[] memory) {
         uint256[] memory ret = new uint256[](eventStruct.tokenIdCnt);
         uint256 current = eventStruct.tokenIds[0];
         uint i = 0;
         while (i != eventStruct.tokenIdCnt) {
             ret[i] = current;
-            current = eventStruct.tokenIds[i];
             i++;
+            current = eventStruct.tokenIds[i];
         }
         return ret;
     }
@@ -287,23 +291,24 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
     // Inputs:
     // 1. The TokenID which corresponds to the event the owner is running
     // 2. A string that corresponds to the url the owner wants to set for their event
-    // State Changes 
+    // State Changes
     // 1. This changes the url arg in the TokenURI to a string specified by the owner
     // Notes:
     // This function checks to insure the owner of the smart contract is the only person who can setURL
-    function setURL(uint256 tokenId,string resourceURL){
-        require(msgSender()==ownerOf(tokenId));
-        eventStruct.url[tokenId] = resourceURL
+    function setURL(uint256 tokenId, string memory resourceURL) public returns (bool){
+        require(_msgSender()==ownerOf(tokenId));
+        eventStruct.url[tokenId] = resourceURL;
+        return true;
     }
 
     // getURL
     // Inputs:
     // 1. The TokenID which corresponds to the event for the check
-    // Outputs 
+    // Outputs
     // 1. This returns the url arg in the TokenURI for an event
     // Notes:
-    function getURL(uint tokenId){
-        return eventStruct.url[tokenId]
+    function getURL(uint256 tokenId) public view returns (string memory) {
+        return eventStruct.url[tokenId];
     }
 
 }
