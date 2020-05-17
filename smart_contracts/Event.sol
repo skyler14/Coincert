@@ -229,6 +229,11 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
         return ret;
     }
 
+    // isAccountTokenOwner
+    // Inputs:
+    // token ID
+    // Notes:
+    // This function returns True/False depending whether messageSender is an owner of the tokenID
     function isAccountTokenOwner(uint256 tokenId) public view returns (bool) {
         address current = eventStruct.tokenIdOwnersList[tokenId][address(0)];
         uint i = 0;

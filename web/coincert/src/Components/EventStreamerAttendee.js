@@ -29,7 +29,7 @@ class EventStreamerAttendee extends Component {
       const contract = await new web3.eth.Contract(EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS, {from: account, gas: 1500000, gasPrice: '20000000000'});
           //const events = await web3.eth.get
       await contract.methods.getURL(this.props.location.state.eventTokenID).call({'from': this.state.account}).then(function(result){
-            console.log("GETURL: " + result));
+            console.log("GETURL: " + result);
             this.setState({ event_url: result});
        }.bind(this));
         }
