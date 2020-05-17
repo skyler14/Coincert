@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import EventStreamerAttendee from './Components/EventStreamerAttendee'
+import EventStreamerHost from './Components/EventStreamerHost'
 import NavBar from './Components/NavBar'
 import Landing from './Components/Landing'
 import EventCreate from './Components/EventCreate'
@@ -59,7 +60,7 @@ class App extends Component {
           <Route path="/" exact component={Landing}/>
           <Route path="/MyEvents" component={MyEvents}/>
           <Route path="/EventStreamerAttendee" component={EventStreamerAttendee}/>
-          <Route path="/EventStreamerHost" component={EventStreamerAttendee}/>
+          <Route path="/EventStreamerHost" component={EventStreamerHost}/>
           <Route path="/EventCreate" component={EventCreate}/>
           <Route path="/EventAbout" component={EventAbout}/>
           <Route path="/CoincertAbout" component={CoincertAbout}/>

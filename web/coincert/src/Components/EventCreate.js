@@ -72,7 +72,7 @@ class EventCreate extends React.Component {
       console.log("createEvent")
       let tokenID = this.getTokenID(token_uri);
       try {
-        this.state.contract.methods.mintWithTokenURI(capacity, tokenID, JSON.stringify(token_uri)).send({'from': this.state.account})
+        this.state.contract.methods.mintWithTokenURI(capacity, tokenID, JSON.stringify(token_uri), this.state.event_price).send({'from': this.state.account})
         .on('transactionHash', function(hash){
           console.log("TransactionHash " + hash);
           this.setState({createdEventID: "Created Event TokenID: " + tokenID});
