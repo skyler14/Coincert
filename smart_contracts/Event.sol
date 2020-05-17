@@ -41,6 +41,7 @@ contract EventStorage {
 
         // TODO: Support any value of share cnt in the functions.
         mapping (uint256 => uint) tokenShareCnt;
+        mapping (uint256 => string) url;
     }
 
     EventStruct eventStruct;
@@ -280,6 +281,29 @@ contract EventV1 is ERC721MetadataMintable, EventStorage {
 
     function getUserDetails(address key) public view returns (string memory, string memory) {
         return (eventStruct.userDetails.data[key].value.email, eventStruct.userDetails.data[key].value.phone);
+    }
+
+    // setURL
+    // Inputs:
+    // 1. The TokenID which corresponds to the event the owner is running
+    // 2. A string that corresponds to the url the owner wants to set for their event
+    // State Changes 
+    // 1. This changes the url arg in the TokenURI to a string specified by the owner
+    // Notes:
+    // This function checks to insure the owner of the smart contract is the only person who can setURL
+    function setURL(uint256 tokenId,string resourceURL){
+        require(msgSender()==ownerOf(tokenId));
+        eventStruct.url[tokenId] = resourceURL
+    }
+
+    // getURL
+    // Inputs:
+    // 1. The TokenID which corresponds to the event for the check
+    // Outputs 
+    // 1. This returns the url arg in the TokenURI for an event
+    // Notes:
+    function getURL(uint tokenId){
+        return eventStruct.url[tokenId]
     }
 
 }
