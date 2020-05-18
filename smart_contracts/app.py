@@ -554,6 +554,67 @@ class BuyEventTicket(Resource):
 
         return resp
 
+set_url = api.model('set_url', {
+    'admin_name': fields.String(required=True, description='Admin name', default="Piyush"),
+    'url': fields.String(required=True, description='URL', default="https://youtube.com"),
+    'owner_address': fields.String(required=True, description='host address', default=""),
+})
+
+@event.route('/<string:coin_id>/set_url')
+class SetUrl(Resource):
+    @api.expect(set_url)
+    def post(self, coin_id):
+        print("------------- Set URL -------------")
+        token_id = int(coin_id, 16)
+        global application_instance
+        admin_name = request.json.get('admin_name')
+        url = request.json.get('url')
+        owner_address = request.json.get('owner_address')
+
+        if admin_name not in application_instance:
+            raise BadRequest("No instance exists for {0}".format(admin_name))
+
+        app = application_instance[admin_name]
+        app.w3.eth.defaultAccount = owner_address
+
+        if not app.proxy_contract_with_bytecode:
+            print("Implementation contract not deployed yet!")
+            raise BadRequest("Implementation contract not deployed yet!")
+
+        tx_hash = app.proxy_contract_with_bytecode.functions.setURL(token_id, url).transact()
+
+        resp = Response(
+            json.dumps({"tx_hash": tx_hash.hex()}),
+            status=200, mimetype='application/json')
+
+        return resp
+
+@event.route('/<string:coin_id>/url')
+class GetEventUrl(Resource):
+    def get(self, coin_id):
+        print("------------- Get Coin -------------")
+        token_id = int(coin_id, 16)
+        print("Token id {0}".format(token_id))
+
+        app = application_instance["Piyush"]
+
+        if not app.proxy_contract_with_bytecode:
+            print("Implementation contract not deployed yet!")
+            raise BadRequest("Implementation contract not deployed yet!")
+
+        url = app.proxy_contract_with_bytecode.functions.getURL(token_id).call()
+
+        resp = {
+                "url": url
+        }
+
+        resp_json = json.dumps(resp)
+        print("Resp json - {0}".format(resp_json))
+
+        return Response(
+            resp_json,
+            status=200, mimetype='application/json')
+
 def compile_contract(contract_source_files, contractFileName, contractName=None, **kwargs):
     """
     Reads file, compiles, returns contract name and interface
