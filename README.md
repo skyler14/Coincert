@@ -3,7 +3,7 @@
 <h2>There are some different components needed for running this application. <h2>
 <p>Ganache CLI</p>
 <p>Python3 & Python Virtual Env (for instantiating chaincode)</p>
-<p> NodeJS (for React FrontEnd)</p>
+<p> NodeJS v10.20.1+ (for React FrontEnd)</p>
 <p> Chrome with Metamask Extension</p>
 
 
