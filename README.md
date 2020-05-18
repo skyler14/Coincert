@@ -17,3 +17,7 @@
 <li>5. Move to the web folder. Run npm start. This will bring up the web Front End.</li>
 <li>6. Create Events and test the application. You can switch metamask accounts to mimic behaviour between multiple users</li>
 </ul>
+
+
+<h2> Additional Information <h2>
+<p> There is a python flask application that can be used for debugging chaincode functionality. This can be run using python app.py 8080<p>
