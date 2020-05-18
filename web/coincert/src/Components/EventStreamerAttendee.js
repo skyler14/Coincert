@@ -28,7 +28,8 @@ class EventStreamerAttendee extends Component {
       const account = accounts[0];
       const contract = await new web3.eth.Contract(EVENT_CONTRACT_ABI, EVENT_CONTRACT_ADDRESS, {from: account, gas: 1500000, gasPrice: '20000000000'});
           //const events = await web3.eth.get
-      await contract.methods.getURL(this.props.location.state.eventTokenID).call({'from': this.state.account}).then(function(result){
+      console.log(this.props.location.state.eventTokenID);
+      await contract.methods.getURL(this.props.location.state.eventTokenID).call({'from': this.state.account}, function(error, result){
             console.log("GETURL: " + result);
             this.setState({ event_url: result});
        }.bind(this));
@@ -42,7 +43,7 @@ class EventStreamerAttendee extends Component {
             <Row><Col>Welcome to {this.props.location.state.eventDetails.event_name}</Col></Row>
             <Row className="justify-content-md-center">
                 <Col>
-                <ReactPlayer url={"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"} playing={true} controls={true}/>
+                <ReactPlayer url={this.state.event_url} playing={true} controls={true}/>
                 </Col>
             </Row>
         </Container>

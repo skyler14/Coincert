@@ -17,7 +17,6 @@ class CoincertAbout extends Component {
             <Row>
             <Col><a href="https://github.com/skyler14/Coincert">source code</a></Col>
             </Row>
-
          </Container>
       )
   }
