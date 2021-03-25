@@ -72,7 +72,7 @@ pyrsistent==0.15.4
 pysha3==1.0.2
 python-dateutil==2.8.1
 pytz==2019.3
-PyYAML==5.3.1
+PyYAML==5.4
 pyzmq==19.0.0
 qtconsole==4.7.1
 QtPy==1.9.0
